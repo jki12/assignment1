@@ -1,14 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title> index </title>
+    <style>
+        label {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <div>
-        <form action="/picker/">
-            <label for="text"> 먹고 싶은 음식? </label>
-            <input type="text" name="text" id="text">
+        <h3> 여행 설문조사 </h3>
+        <form action="/survey/">
+            <label for="place"> 1) 가장 선호하는 여행 목적지는 어디인가요? </label>
+            <br>
+            <input type="text" name="fav_place" id="place" required >
+
+            <fieldset>
+                <legend> 2) 여행을 선택할 때 어떤 요소가 가장 중요한가요? </legend>
+                <label for="price"> 가격 </label>
+                <input type="radio" id="price" name="travel_factors" value="price" checked />
+
+                <label for="tourist_spots"> 관광지 </label>
+                <input type="radio" id="tourist_spots" name="travel_factors" value="tourist_spots" />
+
+                <label for="food"> 음식, 요리 </label>
+                <input type="radio" id="food" name="travel_factors" value="food" />
+
+                <label for="travel_factors_etc"> 기타 </label>
+                <input type="radio" id="travel_factors_etc" name="travel_factors" value="travel_factors_etc" />
+            </fieldset>
+
+            <fieldset>
+                <legend> 3) 여행할 때 가장 선호하는 숙박 방식은 무엇인가요? </legend>
+                <label for="hotel"> 호텔 </label>
+                <input type="radio" id="hotel" name="accommodation_type" value="hotel" checked />
+
+                <label for="airbnb"> 에어비앤비 </label>
+                <input type="radio" id="airbnb" name="accommodation_type" value="airbnb" />
+
+                <label for="camping"> 캠핑 </label>
+                <input type="radio" id="camping" name="accommodation_type" value="camping" />
+
+                <label for="accommodation_type_etc"> 기타 </label>
+                <input type="radio" id="accommodation_type_etc" name="accommodation_type" value="accommodation_type_etc" />
+            </fieldset>
+
+            <input type="submit" value="submit" />
         </form>
     </div>
 </body>
