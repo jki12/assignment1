@@ -12,11 +12,6 @@ public class Survey {
     private static final int QUESTION_COUNT = 3;
 
     private ArrayList<HashMap<String, Integer>> res = new ArrayList<>();
-    // private HashMap<String, Integer> q1 = new HashMap<>();
-    // private HashMap<String, Integer> q2 = new HashMap<>();
-    // private HashMap<String, Integer> q3 = new HashMap<>();
-
-    // http://localhost:8080/survey/?fav_place=%EB%AF%B8%EC%A0%95&travel_factors=travel_factors_etc&accommodation_type=camping
 
     @GetMapping("/survey/")
     public void save(@RequestParam() String fav_place, @RequestParam() String travel_factors, @RequestParam() String accommodation_type) {
