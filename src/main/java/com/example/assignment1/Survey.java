@@ -1,43 +1,50 @@
 package com.example.assignment1;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-
 
 @RestController
 public class Survey {
     private static final int QUESTION_COUNT = 3;
+    private static final String[] TRAVEL_FACTORS = { "price", "tourist_spots", "food", "etc" };
+    private static final String[] ACCOMMODATION_TYPE = { "hotel", "airbnb", "camping", "etc" };
 
     private ArrayList<HashMap<String, Integer>> res = new ArrayList<>();
 
-    @GetMapping("/survey/")
-    public void save(@RequestParam() String fav_place, @RequestParam() String travel_factors, @RequestParam() String accommodation_type) {
+    private ArrayList<String> simpleParser(final String messageBody) {
+        var parsedData = new ArrayList<String>();
+        var list = messageBody.split("&"); // len : 3
+
+        for (int i = 0; i < list.length; ++i) {
+            var temp = list[i].split("=");
+
+            parsedData.add(temp[1]); // 0 : key, 1 : value.
+        }
+
+        // System.out.println(new String(list[0].getBytes(StandardCharsets.UTF_16)));
+
+        return parsedData;
+    }
+
+    @PostMapping("/survey")
+    public void save(@RequestBody String messageBody) {
         if (res.isEmpty()) { // init.
             for (int i = 0; i < QUESTION_COUNT; ++i) {
                 res.add(new HashMap<>());
             }
-
-            res.get(1).put("price", 0);
-            res.get(1).put("tourist_spots", 0);
-            res.get(1).put("food", 0);
-            res.get(1).put("travel_factors_etc", 0);
-
-            res.get(2).put("hotel", 0);
-            res.get(2).put("airbnb", 0);
-            res.get(2).put("camping", 0);
-            res.get(2).put("accommodation_type_etc", 0);
         }
 
-        if (!res.get(0).containsKey(fav_place)) {
-            res.get(0).put(fav_place, 0);
-        }
+        var parsedData = simpleParser(messageBody);
 
-        res.get(0).replace(fav_place, res.get(0).get(fav_place) + 1);
-        res.get(1).replace(travel_factors, res.get(1).get(travel_factors) + 1);
-        res.get(2).replace(accommodation_type, res.get(2).get(accommodation_type) + 1);
+        for (int i = 0; i < parsedData.size(); ++i) {
+            if (!res.get(i).containsKey(parsedData.get(i))) {
+                res.get(i).put(parsedData.get(i), 0);
+            }
+
+            res.get(i).replace(parsedData.get(i), res.get(i).get(parsedData.get(i)) + 1);
+        }
     }
 
     @GetMapping("/survey")
